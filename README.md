@@ -13,6 +13,18 @@ To address this challenge, this codebase implements **Distributionally Robust De
 
 The implementation demonstrates that 3D-Learning achieves a favorable balance between average-case and worst-case performance, significantly improving OOD generalization compared to classical DRO and data augmentation baselines.
 
+---
+
+<p align="center">
+  <a href="Documents/3D Learning.pdf">
+    <img src="Documents/Framework.jpg" width="800">
+  </a>
+</p>
+
+<p align="center">
+  <em>Figure 1: Overview of the 3D-Learning framework.</em>
+</p>
+
 
 📄 **Paper link:**  
 https://arxiv.org/abs/2510.22757
