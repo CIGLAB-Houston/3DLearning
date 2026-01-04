@@ -1,0 +1,14 @@
+# data files
+*.zip
+*.tar
+*.gz
+
+# large data directories
+
+
+# python
+__pycache__/
+*.pyc
+
+# system
+.DS_Store

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="jwen5@129.7.243.92:22 password" deleteMissingItems="true" confirmBeforeUploading="false" confirmBeforeDeletion="false" autoUploadExternalChanges="true">
+    <option name="confirmBeforeDeletion" value="false" />
+    <option name="confirmBeforeUploading" value="false" />
+    <serverData>
+      <paths name="A6000 Ada Server">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/jwen5/Generative_Distributionally_Robust_Learning" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="jwen5@129.7.243.92:22 password">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/jwen5/Publication Code/3D-Learning" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>

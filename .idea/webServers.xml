@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="f2bd3896-282a-4269-8157-0809a0c4902d" name="A6000 Ada Server">
+        <fileTransfer accessType="SFTP" host="129.7.243.92" port="22" sshConfigId="d6d4da55-4794-44ad-b519-91de0f4dac35" sshConfig="jwen5@129.7.243.92:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
