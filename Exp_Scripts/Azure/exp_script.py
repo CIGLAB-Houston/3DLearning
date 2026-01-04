@@ -9,8 +9,8 @@ import numpy as np
 import torch
 
 from diffusion import Train_DFU,Inference_DFU,diffusion_name
-from Algos.dag_dro_v1 import DAG_DRO_V1 as DAG_DRO
-from Algos.dag_dro_v1 import algo_name as dag_name
+from Algos.ddd_learning import DDD_Learning
+from Algos.ddd_learning import algo_name as ddd_name
 from Algos.fw_dro import FW_DRO
 from Algos.fw_dro import algo_name as fw_name
 from Algos.kl_dro import KL_DRO
@@ -24,9 +24,6 @@ from config import Config
 torch.cuda.empty_cache()
 cfg=Config()
 
-
-
-project_root = '/home/jwen5/Publication Code/3D-Learning'
 
 
 shared_params = {
@@ -67,7 +64,7 @@ shared_params = {
                             'GENERATE_FAKE_DATA': False,
                             'EVALUATE_FAKE_DATA': False,
                             'TRAIN_ML': False,
-                            'TRAIN_DAGDRO': False,
+                            'TRAIN_DDDRO': True,
                             'TRAIN_KLDRO': False,
                             'TRAIN_FWDRO': False,
                             'TEST_METHODS': True,
@@ -127,9 +124,9 @@ ml_params = {
 
 }
 
-dag_params = {
+ddd_params = {
               'PUBLIC': {
-                        'NAME':dag_name,
+                        'NAME':ddd_name,
                         'BATCH_SIZE': 64,
                         'DISPLAY_EVERY': 1,
                         'DISCOUNT_FACTOR':0.05,
@@ -457,59 +454,59 @@ with open(log_file_path, 'a') as f:
 
 
     '''
-    DAG-DRO Train Process
+    DDD-DRO Train Process
     '''
-    dag_public_params = dag_params['PUBLIC']
-    dag_dro_params = dag_params['DRO']
-    dag_dfu_params = dag_params['DIFFUSION']
-    dag_ml_params = dag_params['ML']
+    ddd_public_params = ddd_params['PUBLIC']
+    ddd_dro_params = ddd_params['DRO']
+    ddd_dfu_params = ddd_params['DIFFUSION']
+    ddd_ml_params = ddd_params['ML']
 
 
-    dag = DAG_DRO(
-                    beta_1=dag_dfu_params['PUBLIC']['BETA_1'],
-                    beta_T=dag_dfu_params['PUBLIC']['BETA_T'],
-                    T=dag_dfu_params['PUBLIC']['T'],
-                    ppo_clip=dag_public_params['PPO_CLIP'],
-                    adjust_timesteps=dag_dro_params['ADJUST_TIMESTEPS'],
-                    batch_repeat=dag_dfu_params['TRAIN']['BATCH_REPEAT'],
-                    batch_size=dag_public_params['BATCH_SIZE'],
+    ddd = DDD_Learning(
+                    beta_1=ddd_dfu_params['PUBLIC']['BETA_1'],
+                    beta_T=ddd_dfu_params['PUBLIC']['BETA_T'],
+                    T=ddd_dfu_params['PUBLIC']['T'],
+                    ppo_clip=ddd_public_params['PPO_CLIP'],
+                    adjust_timesteps=ddd_dro_params['ADJUST_TIMESTEPS'],
+                    batch_repeat=ddd_dfu_params['TRAIN']['BATCH_REPEAT'],
+                    batch_size=ddd_public_params['BATCH_SIZE'],
                     pic_size=shared_params['PIC_SIZE'],
-                    discount_factor=dag_public_params['DISCOUNT_FACTOR'],
-                    step_size=dag_public_params['STEP_SIZE'],
-                    dro_lr=dag_dro_params['LR'],
-                    epoches=dag_dro_params['ITERATION'],
-                    dro_inner_epochs = dag_dfu_params['TRAIN']['ITERATION'],
-                    ml_inner_epochs = dag_ml_params['TRAIN']['ITERATION'],
-                    p_s0=dag_dro_params['P_S0'],
-                    eta=dag_dro_params['ETA'],
-                    mu=dag_dro_params['MU'],
-                    budget=dag_dro_params['BUDGET'],
-                    windows_len=dag_ml_params['PUBLIC']['WINDOW_LEN'],
-                    predict_len=dag_ml_params['PUBLIC']['PREDICT_LEN'],
-                    display_every=dag_public_params['DISPLAY_EVERY'],
-                    ml_lr=dag_ml_params['TRAIN']['LR'],
+                    discount_factor=ddd_public_params['DISCOUNT_FACTOR'],
+                    step_size=ddd_public_params['STEP_SIZE'],
+                    dro_lr=ddd_dro_params['LR'],
+                    epoches=ddd_dro_params['ITERATION'],
+                    dro_inner_epochs = ddd_dfu_params['TRAIN']['ITERATION'],
+                    ml_inner_epochs = ddd_ml_params['TRAIN']['ITERATION'],
+                    p_s0=ddd_dro_params['P_S0'],
+                    eta=ddd_dro_params['ETA'],
+                    mu=ddd_dro_params['MU'],
+                    budget=ddd_dro_params['BUDGET'],
+                    windows_len=ddd_ml_params['PUBLIC']['WINDOW_LEN'],
+                    predict_len=ddd_ml_params['PUBLIC']['PREDICT_LEN'],
+                    display_every=ddd_public_params['DISPLAY_EVERY'],
+                    ml_lr=ddd_ml_params['TRAIN']['LR'],
                     selected_timesteps=z0_timesteps,
-                    ml_save_every=dag_dro_params['ML_SAVE_EVERY'],
-                    dfu_save_every=dag_dro_params['DFU_SAVE_EVERY'],
-                    dfu_name=dag_dfu_params['PUBLIC']['NAME'],
+                    ml_save_every=ddd_dro_params['ML_SAVE_EVERY'],
+                    dfu_save_every=ddd_dro_params['DFU_SAVE_EVERY'],
+                    dfu_name=ddd_dfu_params['PUBLIC']['NAME'],
                     device=shared_params['DEVICE'],
                     )
 
-    dag_dro_selected_epoch = (dag_dro_params['ITERATION'] // dag_dro_params['ML_SAVE_EVERY']) * \
-                             dag_dro_params['ML_SAVE_EVERY']
+    ddd_dro_selected_epoch = (ddd_dro_params['ITERATION'] // ddd_dro_params['ML_SAVE_EVERY']) * \
+                             ddd_dro_params['ML_SAVE_EVERY']
 
-    selected_dag_dro_ml_model_path = cfg.dro_save_model_path(
+    selected_ddd_dro_ml_model_path = cfg.dro_save_model_path(
         folder=shared_params['MODEL_SAVE'],
-        dro_name=dag_name,
+        dro_name=ddd_name,
         model_name=ml_name,
         cuda=shared_params['DEVICE'],
-        epoch=dag_dro_selected_epoch,
-        lr=dag_ml_params['TRAIN']['LR']
+        epoch=ddd_dro_selected_epoch,
+        lr=ddd_ml_params['TRAIN']['LR']
     )
 
-    if shared_params['TRAIN_DAGDRO']:
+    if shared_params['TRAIN_DDDRO']:
         # If you want to train the model with MSE, then do: task=None. If you want to train with the decision focused learning task, please let task = dcs and data_range=Data_Loader(df=train_data_df).data_group.
-        # dag.train(
+        # ddd.train(
         #     ml_model_path=ml_model_path,
         #     dfu_model_path=dfu_model_path,
         #     z0=z0_data_df,
@@ -518,7 +515,7 @@ with open(log_file_path, 'a') as f:
         #     model_save_folder_path=shared_params['MODEL_SAVE'],
         # )
 
-        dag.train(
+        ddd.train(
                     ml_model_path=ml_model_path,
                     dfu_model_path=dfu_model_path,
                     z0=z0_data_df,
@@ -531,9 +528,9 @@ with open(log_file_path, 'a') as f:
 
 
         Utils().draw_loss_plot(
-                               loss_list=dag.epoches_losses_list,
+                               loss_list=ddd.epoches_losses_list,
                                log_folder_path=log_folder_path,
-                               dro_name=dag_name,
+                               dro_name=ddd_name,
                                diffusion_name=diffusion_name,
                                ml_name=ml_name,
                                 )
@@ -789,14 +786,14 @@ with open(log_file_path, 'a') as f:
                 )
 
             #
-            # #  Evaluate testset on DAG DRO
-            # dag.test(
-            #         model_path=selected_dag_dro_ml_model_path,
+            # #  Evaluate testset on 3D Learning
+            # ddd.test(
+            #         model_path=selected_ddd_dro_ml_model_path,
             #         test_data_loader=eva_loader,
             #     )
 
-            dag.test_task(
-                model_path=selected_dag_dro_ml_model_path,
+            ddd.test_task(
+                model_path=selected_ddd_dro_ml_model_path,
                 test_data_loader=eva_loader,
                 task=dcs,
                 data_range=Data_Loader(df=train_data_df).data_group

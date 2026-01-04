@@ -24,12 +24,12 @@ from config import Config
 from utils import timer_with_memory
 
 
-algo_name = 'DAGDRO-V1'
+algo_name = '3DLearning'
 cfg = Config()
 
 
 
-class DAG_DRO_V1():
+class DDD_Learning():
     def __init__(self, device,discount_factor,batch_size,pic_size,epoches,ppo_clip,display_every,
                  dro_lr,step_size,adjust_timesteps,mu,eta,budget,p_s0,ml_save_every,dfu_save_every,
                  batch_repeat,beta_1,beta_T,T,dfu_name,selected_timesteps,windows_len,predict_len,ml_lr,**kwargs):
@@ -319,7 +319,7 @@ class DAG_DRO_V1():
 
                 x_hat, lowest_loss = task.find_best_scheduling(y=y_pred_real)
                 x_opt, opt_loss = task.find_best_scheduling(y=y_real)
-                evaluate_loss = task.loss(x=torch.tensor(x_hat), y=torch.tensor(y_real))
+                evaluate_loss = task.loss(x=x_hat, y=y_real)
                 regret = evaluate_loss - opt_loss
                 regret_mat.append(regret)
 
