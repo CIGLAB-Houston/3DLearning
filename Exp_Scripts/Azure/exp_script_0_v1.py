@@ -72,7 +72,7 @@ shared_params = {
                             'TRAIN_FWDRO': True,
                             'TEST_METHODS': True,
                             }
-
+print(123)
 dfu_params = {
 
             'PUBLIC': {
