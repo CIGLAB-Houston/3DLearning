@@ -1,6 +1,5 @@
 import os
 import sys
-import math
 import time
 import torch
 import shutil
@@ -11,15 +10,13 @@ import threading
 import tracemalloc
 import numpy as np
 import pandas as pd
-import torch.nn as nn
 from functools import wraps
 import matplotlib.pyplot as plt
 from torch.utils.data import Dataset
 from scipy.stats import wasserstein_distance
 from torch_fidelity import calculate_metrics
 from sklearn.preprocessing import MinMaxScaler
-from torchvision.transforms.functional import to_pil_image
-from datasets import CorruptedDataset
+
 
 
 
@@ -149,7 +146,7 @@ def compute_fid_from_tensors(true_images, fake_images, device='cuda:0'):
     def prepare(tensor):
         if not isinstance(tensor, torch.Tensor):
             tensor = torch.tensor(tensor, dtype=torch.float32)
-        #
+
         if tensor.ndim == 3:
             tensor = tensor.unsqueeze(1)
 
@@ -183,8 +180,8 @@ def compute_fid_from_tensors(true_images, fake_images, device='cuda:0'):
         input1_cache_name=None,
         input2_cache_name=None,
     )
-
     return metrics['frechet_inception_distance']
+
 
 class Evaluation():
     def __init__(self):
@@ -230,8 +227,6 @@ def normalize_rows(X):
     return (X - mean) / std
 
 
-
-
 class Tee:
     def __init__(self, filepath, mode='a'):
         os.makedirs(os.path.dirname(filepath), exist_ok=True)
@@ -269,8 +264,6 @@ class Log_Redirect():
 
         os.mkdir(log_folder_path)
         return log_folder_path,log_file_path
-
-
 
 
 def timer_with_memory(func):

@@ -6,8 +6,6 @@ import torch.nn as nn
 from torch.optim.lr_scheduler import StepLR
 import torch.nn.functional as F
 from tqdm import tqdm
-
-
 from utils import timer_with_memory
 from config import Config
 from Net.MISSION_net import DeepLSTM

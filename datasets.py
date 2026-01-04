@@ -3,7 +3,6 @@ import torch
 from torch.utils.data import Dataset,TensorDataset,DataLoader
 import torchvision.transforms as T
 from sklearn.model_selection import train_test_split
-
 from PIL import Image
 from perlin_noise import PerlinNoise
 
