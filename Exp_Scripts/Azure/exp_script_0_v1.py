@@ -63,16 +63,16 @@ shared_params = {
                                                    }
                             },
 
-                            'TRAIN_DIFFUSION': True,
-                            'GENERATE_FAKE_DATA': True,
-                            'EVALUATE_FAKE_DATA': True,
-                            'TRAIN_ML': True,
-                            'TRAIN_DAGDRO': True,
-                            'TRAIN_KLDRO': True,
-                            'TRAIN_FWDRO': True,
+                            'TRAIN_DIFFUSION': False,
+                            'GENERATE_FAKE_DATA': False,
+                            'EVALUATE_FAKE_DATA': False,
+                            'TRAIN_ML': False,
+                            'TRAIN_DAGDRO': False,
+                            'TRAIN_KLDRO': False,
+                            'TRAIN_FWDRO': False,
                             'TEST_METHODS': True,
                             }
-print(123)
+
 dfu_params = {
 
             'PUBLIC': {

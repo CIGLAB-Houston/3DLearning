@@ -168,7 +168,10 @@ class KL_DRO():
 
                     x_hat, lowest_loss = task.find_best_scheduling(y=y_pred_real)
                     x_opt, opt_loss = task.find_best_scheduling(y=y_real)
-                    evaluate_loss = task.loss(x=torch.tensor(x_hat), y=torch.tensor(y_real))
+                    evaluate_loss = task.loss(
+                        x=x_hat,
+                        y=y_real
+                    )
 
                     regret = torch.mean(evaluate_loss - opt_loss)
                     norm_regret = regret / (-torch.mean(opt_loss))

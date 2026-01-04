@@ -277,8 +277,20 @@ def timer_with_memory(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
 
-        TARGET_GPU = 7
-        torch.cuda.set_device(TARGET_GPU)
+        device = None
+        if args and hasattr(args[0], "device"):
+            device = args[0].device
+
+        if torch.cuda.is_available():
+            if device is not None:
+                if isinstance(device, torch.device):
+                    torch.cuda.set_device(device)
+                elif isinstance(device, int):
+                    torch.cuda.set_device(device)
+                elif isinstance(device, str) and device.startswith("cuda"):
+                    torch.cuda.set_device(torch.device(device))
+            else:
+                torch.cuda.set_device(torch.cuda.current_device())
 
         if args and hasattr(args[0], "__class__"):
             cls_name = args[0].__class__.__name__
