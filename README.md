@@ -26,8 +26,10 @@ The implementation demonstrates that 3D-Learning achieves a favorable balance be
 </p>
 
 
+<!--
 📄 **Paper link:**  
 https://arxiv.org/abs/2510.22757
+-->
 
 ---
 
