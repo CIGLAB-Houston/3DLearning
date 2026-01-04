@@ -31,7 +31,7 @@ https://arxiv.org/abs/2510.22757
 
 ---
 
-##  Features
+## Features
 Specifically, this repository provides:
 - Training pipelines for decision-focused learning under distributional robustness
 - Diffusion-based generation of adversarial yet realistic worst-case distributions
