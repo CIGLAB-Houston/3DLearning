@@ -1,4 +1,4 @@
-# 3D-Learning
+# 3D-Learning: Diffusion-Augmented Distributionally Robust Decision-Focused Learning
 
 
 ---
