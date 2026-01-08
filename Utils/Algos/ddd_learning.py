@@ -506,7 +506,7 @@ class DDD_Learning():
 
         return model,epoches_losses
 
-
+#
 
 
 
