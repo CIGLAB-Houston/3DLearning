@@ -505,7 +505,7 @@ class DDD_Learning():
             print(f'  | Epoch [{epoch + 1}/{epoches}] Avg Training Loss | {avg_loss}')
 
         return model,epoches_losses
-#
+
 
 
 
