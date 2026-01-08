@@ -16,8 +16,8 @@ The implementation demonstrates that 3D-Learning achieves a favorable balance be
 ---
 
 <p align="center">
-  <a href="Documents/3D Learning.pdf">
-    <img src="Documents/Framework.jpg" width="800">
+  <a href="Utils/Documents/3D Learning.pdf">
+    <img src="Utils/Documents/Framework.jpg" width="800">
   </a>
 </p>
 

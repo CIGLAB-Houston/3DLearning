@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from Net.DDPM_net import UNet
+from Utils.Net.DDPM_net import UNet
 
 class Model(nn.Module):
     def __init__(self, device, beta_1, beta_T, T):

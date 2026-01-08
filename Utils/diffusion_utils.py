@@ -4,7 +4,7 @@ import numpy as np
 import torch
 from utils import AverageMeter,ProgressMeter,Utils
 from datasets import Data_Loader
-from Diffusion.DDPM import Model,DiffusionProcess
+from Utils.Diffusion.DDPM import Model,DiffusionProcess
 
 diffusion_name = 'DDPM'
 

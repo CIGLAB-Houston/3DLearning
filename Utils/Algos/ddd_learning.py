@@ -7,11 +7,11 @@ import torch.nn as nn
 from torch.optim.lr_scheduler import StepLR
 from torch.utils.checkpoint import checkpoint
 from tqdm import tqdm
-from datasets import Data_Loader
-from diffusion import DiffusionProcess,diffusion_name
-from Algos.ml import algo_name as ml_name
-from config import Config
-from utils import timer_with_memory
+from Utils.datasets import Data_Loader
+from Utils.diffusion_utils import DiffusionProcess,diffusion_name
+from Utils.Algos.ml import algo_name as ml_name
+from Utils.config import Config
+from Utils.utils import timer_with_memory
 
 
 algo_name = '3DLearning'

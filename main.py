@@ -1,50 +1,49 @@
 
 import sys
 import os
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Utils/Exp_Scripts', '..'))
 sys.path.append(project_root)
 
 import pandas as pd
 import numpy as np
 import torch
 
-from diffusion import Train_DFU,Inference_DFU,diffusion_name
-from Algos.ddd_learning import DDD_Learning
-from Algos.ddd_learning import algo_name as ddd_name
+from Utils.diffusion_utils import Train_DFU,Inference_DFU,diffusion_name
+from Utils.Algos.ddd_learning import DDD_Learning
+from Utils.Algos.ddd_learning import algo_name as ddd_name
 
-from Algos.ml import ML
-from Algos.ml import algo_name as ml_name
-from Dowstream.dc_load_scheduling import DC_Scheduling
-from utils import Utils,Evaluation,Log_Redirect,Tee
-from datasets import Data_Loader
-from config import Config
+from Utils.Algos.ml import ML
+from Utils.Algos.ml import algo_name as ml_name
+from Utils.Dowstream.dc_load_scheduling import DC_Scheduling
+from Utils.utils import Utils,Evaluation,Log_Redirect,Tee
+from Utils.datasets import Data_Loader
+from Utils.config import Config
 torch.cuda.empty_cache()
 cfg=Config()
 
-
+print(project_root)
 
 shared_params = {
             'DEVICE': 'cuda:0',
             'PIC_SIZE': 28,
             'MODEL_SAVE': rf'{project_root}/Models/Azure',
-            'DATA_FOLDER': rf'{project_root}/Data/Azure',
             'GEN_DATA_SAVE': rf'{project_root}/Gen_Data/Azure',
             'RESULT_SAVE': rf'{project_root}/Results',
-            'TRAIN_FILE': rf"{project_root}/Data/Azure/AzureLLMInferenceTrace_2023_Conversation_compressed-5s.csv",
+            'TRAIN_FILE': rf"./Data/Azure/AzureLLMInferenceTrace_2023_Conversation_compressed-5s.csv",
             'TEST_SET': {
-                        '24_Conv_5s': rf'{project_root}/Data/Azure/AzureLLMInferenceTrace_2024_Conversation_compressed-5s.csv',
+                        '24_Conv_5s': rf'./Data/Azure/AzureLLMInferenceTrace_2024_Conversation_compressed-5s.csv',
 
-                        '23_Conv_5s': rf'{project_root}/Data/Azure/AzureLLMInferenceTrace_2023_Conversation_compressed-5s.csv',
+                        '23_Conv_5s': rf'./Data/Azure/AzureLLMInferenceTrace_2023_Conversation_compressed-5s.csv',
 
-                        '24_Code_5s': rf'{project_root}/Data/Azure/AzureLLMInferenceTrace_2024_Coding_compressed-5s.csv',
+                        '24_Code_5s': rf'./Data/Azure/AzureLLMInferenceTrace_2024_Coding_compressed-5s.csv',
 
-                         '23_Code_5s':rf'{project_root}/Data/Azure/AzureLLMInferenceTrace_2023_Coding_compressed-5s.csv',
+                         '23_Code_5s':rf'./Data/Azure/AzureLLMInferenceTrace_2023_Coding_compressed-5s.csv',
 
-                        '23_Code_24_Code_5s': rf'{project_root}/Data/Azure/Combined_AzureLLMInferenceTrace_2023_Coding_2024_Coding_compressed-5s.csv',
+                        '23_Code_24_Code_5s': rf'./Data/Azure/Combined_AzureLLMInferenceTrace_2023_Coding_2024_Coding_compressed-5s.csv',
 
-                        '23_Code_24_Conv_5s': rf'{project_root}/Data/Azure/Combined_AzureLLMInferenceTrace_2023_Coding_2024_Conversation_compressed-5s.csv',
+                        '23_Code_24_Conv_5s': rf'./Data/Azure/Combined_AzureLLMInferenceTrace_2023_Coding_2024_Conversation_compressed-5s.csv',
 
-                        '24_Code_24_Conv_5s': rf'{project_root}/Data/Azure/Combined_AzureLLMInferenceTrace_2024_Coding_2024_Conversation_compressed-5s.csv',
+                        '24_Code_24_Conv_5s': rf'./Data/Azure/Combined_AzureLLMInferenceTrace_2024_Coding_2024_Conversation_compressed-5s.csv',
 
             },
             #
@@ -57,11 +56,11 @@ shared_params = {
                                                    }
                             },
 
-                            'TRAIN_DIFFUSION': False,
-                            'GENERATE_FAKE_DATA': False,
-                            'EVALUATE_FAKE_DATA': False,
-                            'TRAIN_ML': False,
-                            'TRAIN_DDDRO': False,
+                            'TRAIN_DIFFUSION': True,
+                            'GENERATE_FAKE_DATA': True,
+                            'EVALUATE_FAKE_DATA': True,
+                            'TRAIN_ML': True,
+                            'TRAIN_DDDRO': True,
                             'TEST_METHODS': True,
                             }
 
