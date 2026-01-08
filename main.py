@@ -21,7 +21,6 @@ from Utils.config import Config
 torch.cuda.empty_cache()
 cfg=Config()
 
-print(project_root)
 
 shared_params = {
             'DEVICE': 'cuda:0',

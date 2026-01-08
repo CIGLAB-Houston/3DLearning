@@ -89,7 +89,7 @@ pip install -r requirements.txt
 
 ## Run
 
-Please navigate to the `Exp_Script/Azure` directory and run `exp_scrip.py` to execute the experiments.
+Please run `main.py` to execute the experiments.
 
 The script is pre-configured with the main experimental settings used in the paper, corresponding to the results reported in **Table 1**.
 
