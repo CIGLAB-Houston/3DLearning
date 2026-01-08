@@ -26,24 +26,24 @@ print(project_root)
 shared_params = {
             'DEVICE': 'cuda:0',
             'PIC_SIZE': 28,
-            'MODEL_SAVE': rf'{project_root}/Models/Azure',
-            'GEN_DATA_SAVE': rf'{project_root}/Gen_Data/Azure',
+            'MODEL_SAVE': rf'{project_root}/Models',
+            'GEN_DATA_SAVE': rf'{project_root}/Gen_Data',
             'RESULT_SAVE': rf'{project_root}/Results',
-            'TRAIN_FILE': rf"./Data/Azure/AzureLLMInferenceTrace_2023_Conversation_compressed-5s.csv",
+            'TRAIN_FILE': rf"./Data/AzureLLMInferenceTrace_2023_Conversation_compressed-5s.csv",
             'TEST_SET': {
-                        '24_Conv_5s': rf'./Data/Azure/AzureLLMInferenceTrace_2024_Conversation_compressed-5s.csv',
+                        '24_Conv_5s': rf'./Data/AzureLLMInferenceTrace_2024_Conversation_compressed-5s.csv',
 
-                        '23_Conv_5s': rf'./Data/Azure/AzureLLMInferenceTrace_2023_Conversation_compressed-5s.csv',
+                        '23_Conv_5s': rf'./Data/AzureLLMInferenceTrace_2023_Conversation_compressed-5s.csv',
 
-                        '24_Code_5s': rf'./Data/Azure/AzureLLMInferenceTrace_2024_Coding_compressed-5s.csv',
+                        '24_Code_5s': rf'./Data/AzureLLMInferenceTrace_2024_Coding_compressed-5s.csv',
 
-                         '23_Code_5s':rf'./Data/Azure/AzureLLMInferenceTrace_2023_Coding_compressed-5s.csv',
+                         '23_Code_5s':rf'./Data/AzureLLMInferenceTrace_2023_Coding_compressed-5s.csv',
 
-                        '23_Code_24_Code_5s': rf'./Data/Azure/Combined_AzureLLMInferenceTrace_2023_Coding_2024_Coding_compressed-5s.csv',
+                        '23_Code_24_Code_5s': rf'./Data/Combined_AzureLLMInferenceTrace_2023_Coding_2024_Coding_compressed-5s.csv',
 
-                        '23_Code_24_Conv_5s': rf'./Data/Azure/Combined_AzureLLMInferenceTrace_2023_Coding_2024_Conversation_compressed-5s.csv',
+                        '23_Code_24_Conv_5s': rf'./Data/Combined_AzureLLMInferenceTrace_2023_Coding_2024_Conversation_compressed-5s.csv',
 
-                        '24_Code_24_Conv_5s': rf'./Data/Azure/Combined_AzureLLMInferenceTrace_2024_Coding_2024_Conversation_compressed-5s.csv',
+                        '24_Code_24_Conv_5s': rf'./Data/Combined_AzureLLMInferenceTrace_2024_Coding_2024_Conversation_compressed-5s.csv',
 
             },
             #
