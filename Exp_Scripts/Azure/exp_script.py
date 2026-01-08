@@ -11,10 +11,7 @@ import torch
 from diffusion import Train_DFU,Inference_DFU,diffusion_name
 from Algos.ddd_learning import DDD_Learning
 from Algos.ddd_learning import algo_name as ddd_name
-from Algos.fw_dro import FW_DRO
-from Algos.fw_dro import algo_name as fw_name
-from Algos.kl_dro import KL_DRO
-from Algos.kl_dro import algo_name as kl_name
+
 from Algos.ml import ML
 from Algos.ml import algo_name as ml_name
 from Dowstream.dc_load_scheduling import DC_Scheduling
@@ -64,9 +61,7 @@ shared_params = {
                             'GENERATE_FAKE_DATA': False,
                             'EVALUATE_FAKE_DATA': False,
                             'TRAIN_ML': False,
-                            'TRAIN_DDDRO': True,
-                            'TRAIN_KLDRO': False,
-                            'TRAIN_FWDRO': False,
+                            'TRAIN_DDDRO': False,
                             'TEST_METHODS': True,
                             }
 
@@ -177,50 +172,6 @@ ddd_params = {
              }
 
 
-fw_params = {
-            'PUBLIC': {
-                        'NAME':fw_name,
-                        'WINDOW_LEN': 7,
-                        'PREDICT_LEN':1,
-                        'SELECTED_EPOCH':100,
-                        'BATCH_SIZE':64,
-                        'DISPLAY_EVERY': 5,
-                        'SAVE_EVERY': 10,
-                        },
-
-            'DRO': {
-                     'ITERATION':100,
-                     'DISCOUNT_FACTOR':0.05,
-                     'STEP_SIZE':10,
-                     'BUDGET':2,
-                     'ATTACK_STEPS':15,
-                     'P':2,
-                     'Q':2,
-                     'LR':2e-5,
-                    },
-            }
-
-
-kl_params = {
-            'PUBLIC': {
-                        'NAME':kl_name,
-                        'WINDOW_LEN': 7,
-                        'PREDICT_LEN':1,
-                        'SELECTED_EPOCH':100,
-                        'BATCH_SIZE':64,
-                        'DISPLAY_EVERY': 5,
-                        'SAVE_EVERY': 10,
-                        },
-
-            'DRO': {
-                     'ITERATION':100,
-                     'DISCOUNT_FACTOR':0.05,
-                     'STEP_SIZE':10,
-                     'BUDGET':2,
-                     'ALPHA':1,
-                     'LR':2e-5,
-                    },
-            }
 
 log_folder_path,log_file_path = Log_Redirect().build_log_file(result_path=shared_params['RESULT_SAVE'],cuda=shared_params['DEVICE'])
 
@@ -536,166 +487,6 @@ with open(log_file_path, 'a') as f:
                                 )
 
 
-    '''
-    FW-DRO Train Process
-    '''
-    fw_public_params = fw_params['PUBLIC']
-    fw_dro_params = fw_params['DRO']
-
-    fw = FW_DRO(
-                windows_len=fw_public_params['WINDOW_LEN'],
-                predict_len=fw_public_params['PREDICT_LEN'],
-                epoches=fw_dro_params['ITERATION'],
-                discount_factor=fw_dro_params['DISCOUNT_FACTOR'],
-                step_size=fw_dro_params['STEP_SIZE'],
-                budget=fw_dro_params['BUDGET'],
-                attack_steps=fw_dro_params['ATTACK_STEPS'],
-                p=fw_dro_params['P'],
-                q=fw_dro_params['Q'],
-                lr=fw_dro_params['LR'],
-                device=shared_params['DEVICE'],
-                save_every=fw_public_params['SAVE_EVERY'],
-                display_every=fw_public_params['DISPLAY_EVERY'],
-                )
-
-    fw_dro_model_path = cfg.dro_save_model_path(
-                    folder=shared_params['MODEL_SAVE'],
-                    dro_name=fw_public_params['NAME'],
-                    model_name='ML',
-                    cuda=shared_params['DEVICE'],
-                    epoch=fw_public_params['SELECTED_EPOCH'],
-                    lr=fw_dro_params['LR'],
-                    )
-
-    if shared_params['TRAIN_FWDRO']:
-        fw_dro_dl = Data_Loader(df=train_data_df)
-        fw_dro_train_loader, fw_dro_test_loader = fw_dro_dl.ml_set2loader(
-            split_test=True,
-            normlized=True,
-            device=shared_params['DEVICE'],
-            batch_size=fw_public_params['BATCH_SIZE'],
-            pic_size=shared_params['PIC_SIZE'],
-        )
-
-        # If you want to train the model with MSE, then do: task=None. If you want to train with the decision focused learning task, please let task = dcs and data_range=Data_Loader(df=train_data_df).data_group.
-        # fw.train(
-        #     model_path=ml_model_path,
-        #     model_save_folder_path=shared_params['MODEL_SAVE'],
-        #     train_data_loader=fw_dro_train_loader,
-        #
-        # )
-
-        fw.train(
-            model_path=ml_model_path,
-            model_save_folder_path=shared_params['MODEL_SAVE'],
-            train_data_loader=fw_dro_train_loader,
-            task=dcs,
-            data_range=Data_Loader(df=train_data_df).data_group
-        )
-
-        Utils().draw_loss_plot(
-            loss_list=fw.epoches_losses_list,
-            log_folder_path=log_folder_path,
-            dro_name=fw_name,
-        )
-
-        # If you want to test within MSE, please use the follow test function
-
-        # fw.test(
-        #         model_path=fw_dro_model_path,
-        #         test_data_loader=fw_dro_test_loader,
-        #     )
-
-        # If you want to test within the task, please use the follow test_task function
-
-        fw.test_task(
-            model_path=fw_dro_model_path,
-            test_data_loader=fw_dro_test_loader,
-            task=dcs,
-            data_range=Data_Loader(df=train_data_df).data_group
-
-        )
-
-    '''
-    KL-DRO Train Process
-    '''
-    kl_public_params = kl_params['PUBLIC']
-    kl_dro_params = kl_params['DRO']
-
-    kl = KL_DRO(
-                windows_len=kl_public_params['WINDOW_LEN'],
-                predict_len=kl_public_params['PREDICT_LEN'],
-                epoches=kl_dro_params['ITERATION'],
-                discount_factor=kl_dro_params['DISCOUNT_FACTOR'],
-                step_size=kl_dro_params['STEP_SIZE'],
-                alpha=kl_dro_params['ALPHA'],
-                budget=kl_dro_params['BUDGET'],
-                lr=kl_dro_params['LR'],
-                device=shared_params['DEVICE'],
-                save_every=kl_public_params['SAVE_EVERY'],
-                display_every=kl_public_params['DISPLAY_EVERY'],
-            )
-
-    kl_dro_model_path = cfg.dro_save_model_path(
-        folder=shared_params['MODEL_SAVE'],
-        dro_name=kl_public_params['NAME'],
-        model_name='ML',
-        cuda=shared_params['DEVICE'],
-        epoch=kl_public_params['SELECTED_EPOCH'],
-        lr=kl_dro_params['LR'],
-    )
-
-
-
-    if shared_params['TRAIN_KLDRO']:
-        kl_dro_dl = Data_Loader(df=train_data_df)
-        kl_dro_train_loader, kl_dro_test_loader = kl_dro_dl.ml_set2loader(
-            split_test=True,
-            normlized=True,
-            device=shared_params['DEVICE'],
-            batch_size=kl_public_params['BATCH_SIZE'],
-            pic_size=shared_params['PIC_SIZE'],
-        )
-
-        # If you want to train the model with MSE, then do: task=None. If you want to train with the decision focused learning task, please let task = dcs and data_range=Data_Loader(df=train_data_df).data_group.
-        # kl.train(
-        #     model_path=ml_model_path,
-        #     model_save_folder_path=shared_params['MODEL_SAVE'],
-        #     train_data_loader=kl_dro_train_loader,
-        # )
-
-        kl.train(
-            model_path=ml_model_path,
-            model_save_folder_path=shared_params['MODEL_SAVE'],
-            train_data_loader=kl_dro_train_loader,
-            task=dcs,
-            data_range=Data_Loader(df=train_data_df).data_group
-        )
-
-        Utils().draw_loss_plot(
-            loss_list=kl.epoches_losses_list,
-            log_folder_path=log_folder_path,
-            dro_name=kl_name,
-        )
-
-        # If you want to test within MSE, please use the follow test function
-
-        # kl.test(
-        #     model_path=kl_dro_model_path,
-        #     test_data_loader=kl_dro_test_loader,
-        # )
-
-        # If you want to test within the task, please use the follow test_task function
-
-        kl.test_task(
-            model_path=kl_dro_model_path,
-            test_data_loader=kl_dro_test_loader,
-            task=dcs,
-            data_range=Data_Loader(df=train_data_df).data_group
-
-        )
-
-
 
     if shared_params['TEST_METHODS']:
 
@@ -757,32 +548,6 @@ with open(log_file_path, 'a') as f:
                     test_data_loader=eva_loader,
                     task=dcs,
                     data_range = Data_Loader(df=train_data_df).data_group
-                )
-
-            # # #  Evaluate testset on FW DRO
-            # # fw.test(
-            # #         model_path=fw_dro_model_path,
-            # #         test_data_loader=eva_loader,
-            # #     )
-            #
-            fw.test_task(
-                model_path=fw_dro_model_path,
-                test_data_loader=eva_loader,
-                task=dcs,
-                data_range=Data_Loader(df=train_data_df).data_group
-            )
-            #
-            # # #  Evaluate testset on KL DRO
-            # # kl.test(
-            # #         model_path=kl_dro_model_path,
-            # #         test_data_loader=eva_loader,
-            # #     )
-            #
-            kl.test_task(
-                model_path=kl_dro_model_path,
-                test_data_loader=eva_loader,
-                task=dcs,
-                data_range=Data_Loader(df=train_data_df).data_group
                 )
 
             #
