@@ -1,6 +1,6 @@
 # 3D-Learning: Diffusion-Augmented Distributionally Robust Decision-Focused Learning
 
-**A case study on Resource Provisioning for LLM Inference**
+**A Case Study on Resource Provisioning for LLM Inference**
 ---
 
 ##  Overview
