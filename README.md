@@ -5,13 +5,11 @@
 
 ##  Overview
 
-This repository implements **3D-Learning: Diffusion-Augmented Distributionally Robust Decision-Focused Learning**, a framework designed to improve the robustness of Predict-then-Optimize (PTO) pipelines under out-of-distribution (OOD) conditions.
+This repository implements [3D-Learning: Diffusion-Augmented Distributionally Robust Decision-Focused Learning](https://www.arxiv.org/pdf/2602.02943), a framework designed to improve the robustness of Predict-then-Optimize (PTO) pipelines under out-of-distribution (OOD) conditions. The paper has been accepted by INFOCOM 2026.
 
-In many computing and networked systems (e.g., cloud LLM serving, data center demand response, and edge workload scheduling), machine learning models are first used to predict contextual information, which is then consumed by downstream optimization or decision-making modules. While effective under in-distribution settings, such predictors often suffer from severe performance degradation when encountering OOD inputs, leading to suboptimal or unstable decisions.
-
-To address this challenge, this codebase implements **Distributionally Robust Decision-Focused Learning (DR-DFL)** using a diffusion-based approach. Instead of relying on classical DRO methods with hand-crafted ambiguity sets, **3D-Learning parameterizes the uncertainty set using a diffusion model**, enabling the search for worst-case data distributions that remain realistic and consistent with observed data.
-
-The implementation demonstrates that 3D-Learning achieves a favorable balance between average-case and worst-case performance, significantly improving OOD generalization compared to classical DRO and data augmentation baselines.
+The application is Workload-Aware Resource Provisioning for LLM Inference. With the rapid deployment of AI, particularly large language models (LLMs), the substantial energy costs of AI workloads have become a critical concern. In AI data centers, inference workloads often constitute a large fraction of total computing demand. As LLMs are increasingly adopted, serving systems must process a large volume of LLM inference requests. Given the limited computing capacity and fluctuating demand, data center operators usually need
+to provision resources in advance based on predicted workloads. However, the distribution of inference demand can evolve significantly, making it difficult to forecast workloads accurately and to strike an effective balance between energy efficiency and performance guarantees based on the prediction.
+We develop a distributionally robust LLM workload predictor focusing on the objectives of serving performance and energy costs
 
 ---
 
@@ -65,6 +63,10 @@ The main dependencies used in this project are:
 | torchvision       | 0.22.0+cu128   |
 | torch_fidelity    | 0.3.0          |
 | tqdm              | 4.67.1         |
+
+### Dataset
+
+The experiments are conduct based on the dataset of [Azure LLM Inference Traces](https://github.com/Azure/AzurePublicDataset). The dataset captures time series of input and output token counts for each service request in the years 2023 and 2024 from two production-grade LLM inference services deployed within Azure, targeting code-related and conversational tasks, respectively. 
 
 
 A full list of dependencies is provided in `requirements.txt`.
