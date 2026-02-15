@@ -5,7 +5,7 @@
 
 ##  Overview
 
-This repository implements [3D-Learning: Diffusion-Augmented Distributionally Robust Decision-Focused Learning](https://www.arxiv.org/pdf/2602.02943), a framework designed to improve the robustness of Predict-then-Optimize (PTO) pipelines under out-of-distribution (OOD) conditions. The paper has been accepted by INFOCOM 2026.
+This repository implements [3D-Learning: Diffusion-Augmented Distributionally Robust Decision-Focused Learning](https://www.arxiv.org/pdf/2602.02943), a framework designed to improve the robustness of Predict-then-Optimize (PTO) pipelines under out-of-distribution (OOD) conditions. The paper has been accepted by **INFOCOM 2026**.
 
 The application is Workload-Aware Resource Provisioning for LLM Inference. With the rapid deployment of AI, particularly large language models (LLMs), the substantial energy costs of AI workloads have become a critical concern. In AI data centers, inference workloads often constitute a large fraction of total computing demand. As LLMs are increasingly adopted, serving systems must process a large volume of LLM inference requests. Given the limited computing capacity and fluctuating demand, data center operators usually need
 to provision resources in advance based on predicted workloads. However, the distribution of inference demand can evolve significantly, making it difficult to forecast workloads accurately and to strike an effective balance between energy efficiency and performance guarantees based on the prediction.
